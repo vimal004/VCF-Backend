@@ -11,7 +11,7 @@ const AllCustomers = () => {
 
   useEffect(() => {
     axios
-      .get("https://vcf-app-backend.vercel.app/customers")
+      .get("https://vcf-backend.vercel.app/customers")
       .then((response) => {
         setCustomers(response?.data?.data);
       })

@@ -17,7 +17,7 @@ const CustomerForm = () => {
 
   const handleDelete = () => {
     axios
-      .delete(`https://vcf-app-backend.vercel.app/customer/${formData.id}`)
+      .delete(`https://vcf-backend.vercel.app/customer/${formData.id}`)
       .then((res) => {
         console.log(res);
         setDeleted(true);
@@ -32,7 +32,7 @@ const CustomerForm = () => {
 
   const handleUpdate = () => {
     axios
-      .put("https://vcf-app-backend.vercel.app/customer", formData)
+      .put("https://vcf-backend.vercel.app/customer", formData)
       .then((res) => {
         console.log(res);
         setUpdated(true);
@@ -56,7 +56,7 @@ const CustomerForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("https://vcf-app-backend.vercel.app/customer", formData)
+      .post("https://vcf-backend.vercel.app/customer", formData)
       .then((res) => {
         console.log(res.data);
         setSuccess(true);

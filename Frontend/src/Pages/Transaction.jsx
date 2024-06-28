@@ -16,7 +16,7 @@ const Transaction = () => {
 
   useEffect(() => {
     axios
-      .get("https://vcf-app-backend.vercel.app/customers")
+      .get("https://vcf-backend.vercel.app/customers")
       .then((response) => {
         setCustomers(response?.data?.data);
       })
@@ -27,7 +27,7 @@ const Transaction = () => {
 
   useEffect(() => {
     axios
-      .get("https://vcf-app-backend.vercel.app/group")
+      .get("https://vcf-backend.vercel.app/group")
       .then((response) => {
         setTdat(response?.data?.data);
       })
@@ -52,7 +52,7 @@ const Transaction = () => {
 
   useEffect(() => {
     axios
-      .get(`https://vcf-app-backend.vercel.app/group/transaction`, {
+      .get(`https://vcf-backend.vercel.app/group/transaction`, {
         params: { id: customerid },
       })
       .then((res) => {
@@ -60,7 +60,7 @@ const Transaction = () => {
       })
       .catch((err) => {
         axios
-          .post("https://vcf-app-backend.vercel.app/group/transaction", {
+          .post("https://vcf-backend.vercel.app/group/transaction", {
             id: customerid,
             data: inputValues,
           })
@@ -105,7 +105,7 @@ const Transaction = () => {
 
   const handleupdate = () => {
     axios
-      .put("https://vcf-app-backend.vercel.app/group/transaction", {
+      .put("https://vcf-backend.vercel.app/group/transaction", {
         id: customerid,
         data: inputValues,
       })

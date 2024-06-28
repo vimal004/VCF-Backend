@@ -14,14 +14,14 @@ const Defaulters = () => {
     const fetchDefaulters = async () => {
       try {
         const defaultersResponse = await axios.get(
-          "https://vcf-app-backend.vercel.app/group/defaulters"
+          "https://vcf-backend.vercel.app/group/defaulters"
         );
         const defaulterIds = defaultersResponse.data.map(
           (defaulter) => defaulter.id
         );
 
         const customersResponse = await axios.get(
-          "https://vcf-app-backend.vercel.app/customers"
+          "https://vcf-backend.vercel.app/customers"
         );
         const defaulterCustomers = customersResponse.data.data.filter(
           (customer) => defaulterIds.includes(customer.id)

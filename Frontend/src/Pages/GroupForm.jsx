@@ -16,7 +16,7 @@ const GroupForm = () => {
 
   const handleDelete = () => {
     axios
-      .delete(`https://vcf-app-backend.vercel.app/group`, {
+      .delete(`https://vcf-backend.vercel.app/group`, {
         data: formData, // Specify data object to send in the request body
       })
       .then((res) => {
@@ -34,7 +34,7 @@ const GroupForm = () => {
 
   const handleUpdate = () => {
     axios
-      .put(`https://vcf-app-backend.vercel.app/group`, formData)
+      .put(`https://vcf-backend.vercel.app/group`, formData)
       .then((res) => {
         console.log(res);
         setUpdated(true);
@@ -60,7 +60,7 @@ const GroupForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("https://vcf-app-backend.vercel.app/group", formData)
+      .post("https://vcf-backend.vercel.app/group", formData)
       .then((res) => {
         console.log(res.data);
         setSuccess(true);

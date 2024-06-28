@@ -8,7 +8,7 @@ const ViewGroups = () => {
 
   useEffect(() => {
     axios
-      .get("https://vcf-app-backend.vercel.app/group")
+      .get("https://vcf-backend.vercel.app/group")
       .then((response) => {
         setGroups(response.data.data);
         setLoading(false);
