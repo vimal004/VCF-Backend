@@ -57,10 +57,14 @@ groupRouter.put("/", async (req, res) => {
 
 // Delete a group by ID
 groupRouter.delete("/", async (req, res) => {
-  const deleteData = req.body; // Assuming req.body contains the _id of the group to delete
+  const { group } = req.body; // Assuming req.body contains the group name to delete
+
+  if (!group) {
+    return res.status(400).json({ message: "Group is required" });
+  }
 
   try {
-    const deletedGroup = await Group.findOneAndDelete(deleteData.group);
+    const deletedGroup = await Group.findOneAndDelete({ group });
 
     if (!deletedGroup) {
       return res.status(404).json({
@@ -74,7 +78,7 @@ groupRouter.delete("/", async (req, res) => {
     });
   } catch (error) {
     console.error("Error deleting group:", error);
-    res.status(400).json({
+    res.status(500).json({
       message: "Error deleting group",
       error: error.message,
     });

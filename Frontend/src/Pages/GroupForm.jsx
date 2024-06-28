@@ -16,8 +16,13 @@ const GroupForm = () => {
 
   const handleDelete = () => {
     axios
-      .delete(`https://vcf-backend.vercel.app/group`, {
-        data: formData, // Specify data object to send in the request body
+      .delete("https://vcf-backend.vercel.app/group", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          group: formData.group, // Adjust based on your form data structure
+        },
       })
       .then((res) => {
         console.log(res);
@@ -28,7 +33,7 @@ const GroupForm = () => {
       })
       .catch((err) => {
         console.error("Error deleting group:", err);
-        // Handle error state or display an error message
+        // Optionally, handle the error state or display an error message
       });
   };
 
@@ -47,7 +52,6 @@ const GroupForm = () => {
         // Handle error state or display an error message
       });
   };
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
