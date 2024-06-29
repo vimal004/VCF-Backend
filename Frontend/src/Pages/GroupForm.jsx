@@ -1,5 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {
+  TextField,
+  Button,
+  Snackbar,
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  Grid,
+  IconButton,
+} from "@mui/material";
+import { Delete, Update, CheckCircle, Error } from "@mui/icons-material";
 
 const GroupForm = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +33,7 @@ const GroupForm = () => {
           "Content-Type": "application/json",
         },
         data: {
-          group: formData.group, // Adjust based on your form data structure
+          group: formData.group,
         },
       })
       .then((res) => {
@@ -33,7 +45,6 @@ const GroupForm = () => {
       })
       .catch((err) => {
         console.error("Error deleting group:", err);
-        // Optionally, handle the error state or display an error message
       });
   };
 
@@ -49,7 +60,6 @@ const GroupForm = () => {
       })
       .catch((err) => {
         console.error("Error updating group:", err);
-        // Handle error state or display an error message
       });
   };
 
@@ -82,94 +92,141 @@ const GroupForm = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold mb-6 text-center">Group Form</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block mb-1 font-medium">Group Number:</label>
-          <input
-            name="group"
-            type="text"
-            value={formData.group}
-            onChange={handleChange}
-            className="w-full border border-gray-300 px-3 py-2 rounded-lg"
-          />
-        </div>
-        <div>
-          <label className="block mb-1 font-medium">Group Name:</label>
-          <input
-            name="groupname"
-            type="text"
-            value={formData.groupname}
-            onChange={handleChange}
-            className="w-full border border-gray-300 px-3 py-2 rounded-lg"
-          />
-        </div>
-        <div>
-          <label className="block mb-1 font-medium">Months:</label>
-          <input
-            name="months"
-            type="number"
-            value={formData.months}
-            onChange={handleChange}
-            className="w-full border border-gray-300 px-3 py-2 rounded-lg"
-          />
-        </div>
-        <div>
-          <label className="block mb-1 font-medium">Starting Month:</label>
-          <input
-            name="startmonth"
-            type="text"
-            value={formData.startmonth}
-            onChange={handleChange}
-            className="w-full border border-gray-300 px-3 py-2 rounded-lg"
-          />
-        </div>
-        {created && success === true ? (
-          <div className="text-green-500 text-center my-5">Group Created</div>
-        ) : success === false ? (
-          <div className="text-red-500 text-center my-5">
-            Group Creation Failed
-          </div>
-        ) : (
-          <div></div>
-        )}
-        {deleted ? (
-          <div className="text-green-500 text-center my-5">
-            Group Record Deleted
-          </div>
-        ) : (
-          <div></div>
-        )}
-        {updated ? (
-          <div className="text-green-500 text-center my-5">
-            Group Record Updated
-          </div>
-        ) : (
-          <div></div>
-        )}
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded-lg font-medium hover:bg-blue-600 transition duration-300"
-        >
-          Create
-        </button>
-        <button
-          type="button"
-          onClick={handleUpdate}
-          className="w-full bg-yellow-500 text-white py-2 rounded-lg font-medium hover:bg-yellow-600 transition duration-300 mt-4"
-        >
-          Update
-        </button>
-        <button
-          type="button"
-          onClick={handleDelete}
-          className="w-full bg-red-500 text-white py-2 rounded-lg font-medium hover:bg-red-600 transition duration-300 mt-4"
-        >
-          Delete
-        </button>
-      </form>
-    </div>
+    <Box className="max-w-md mx-auto mt-10">
+      <Card raised sx={{ borderRadius: 3 }}>
+        <CardContent>
+          <Typography
+            variant="h4"
+            component="h2"
+            gutterBottom
+            sx={{
+              fontWeight: "bold",
+              textAlign: "center",
+            }}
+          >
+            Group Form
+          </Typography>
+
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  type="text"
+                  name="group"
+                  value={formData.group}
+                  onChange={handleChange}
+                  label="Group Number"
+                  variant="outlined"
+                  fullWidth
+                  required
+                  sx={{ borderRadius: 2 }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  type="text"
+                  name="groupname"
+                  value={formData.groupname}
+                  onChange={handleChange}
+                  label="Group Name"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ borderRadius: 2 }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  type="number"
+                  name="months"
+                  value={formData.months}
+                  onChange={handleChange}
+                  label="Months"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ borderRadius: 2 }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  type="text"
+                  name="startmonth"
+                  value={formData.startmonth}
+                  onChange={handleChange}
+                  label="Starting Month"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ borderRadius: 2 }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Snackbar
+                  open={created && success === true}
+                  autoHideDuration={3000}
+                  message="Group Created"
+                  icon={<CheckCircle />}
+                />
+                <Snackbar
+                  open={success === false}
+                  autoHideDuration={3000}
+                  message="Group Creation Failed"
+                  icon={<Error />}
+                />
+                <Snackbar
+                  open={deleted}
+                  autoHideDuration={3000}
+                  message="Group Record Deleted"
+                  icon={<CheckCircle />}
+                />
+                <Snackbar
+                  open={updated}
+                  autoHideDuration={3000}
+                  message="Group Record Updated"
+                  icon={<CheckCircle />}
+                />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  startIcon={<CheckCircle />}
+                  fullWidth
+                  sx={{ borderRadius: 2 }}
+                >
+                  Create
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <Button
+                  type="button"
+                  onClick={handleUpdate}
+                  variant="contained"
+                  color="warning"
+                  startIcon={<Update />}
+                  fullWidth
+                  sx={{ borderRadius: 2 }}
+                >
+                  Update
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <Button
+                  type="button"
+                  onClick={handleDelete}
+                  variant="contained"
+                  color="error"
+                  startIcon={<Delete />}
+                  fullWidth
+                  sx={{ borderRadius: 2 }}
+                >
+                  Delete
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </CardContent>
+      </Card>
+    </Box>
   );
 };
 
