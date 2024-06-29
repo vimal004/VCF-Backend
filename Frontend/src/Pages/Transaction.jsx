@@ -85,6 +85,8 @@ const Transaction = () => {
           auctionDate: existvalues[index]?.auctionDate || "",
           dueDate: existvalues[index]?.dueDate || "",
           remainingAmount: existvalues[index]?.remainingAmount || "",
+          dueAmount: existvalues[index]?.dueAmount || "", // New field
+          paidAmount: existvalues[index]?.paidAmount || "", // New field
           status: existvalues[index]?.status || "Pending", // Default status to Pending if not set
         }))
       );
@@ -144,16 +146,18 @@ const Transaction = () => {
         </p>
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full md:min-w-full bg-white border border-gray-300">
+        <table className="w-full bg-white border border-gray-300">
           <thead className="bg-gray-200">
             <tr>
-              <th className="border border-gray-300 px-6 py-3">Month</th>
-              <th className="border border-gray-300 px-6 py-3">Auction Date</th>
-              <th className="border border-gray-300 px-6 py-3">Due Date</th>
-              <th className="border border-gray-300 px-6 py-3">
+              <th className="border border-gray-300 px-4 py-2">Month</th>
+              <th className="border border-gray-300 px-4 py-2">Auction Date</th>
+              <th className="border border-gray-300 px-4 py-2">Due Date</th>
+              <th className="border border-gray-300 px-4 py-2">
                 Remaining Amount
               </th>
-              <th className="border border-gray-300 px-20 py-3">Status</th>
+              <th className="border border-gray-300 px-4 py-2">Due Amount</th>
+              <th className="border border-gray-300 px-4 py-2">Paid Amount</th>
+              <th className="border border-gray-300 px-4 py-2">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -170,10 +174,10 @@ const Transaction = () => {
 
                 return (
                   <tr key={index}>
-                    <td className="border border-gray-300 px-6 py-4">
+                    <td className="border border-gray-300 px-4 py-2">
                       {currentMonthName}
                     </td>
-                    <td className="border border-gray-300 px-6 py-4">
+                    <td className="border border-gray-300 px-4 py-2">
                       <input
                         type="text"
                         value={inputValues[index]?.auctionDate || ""}
@@ -183,7 +187,7 @@ const Transaction = () => {
                         className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500"
                       />
                     </td>
-                    <td className="border border-gray-300 px-6 py-4">
+                    <td className="border border-gray-300 px-4 py-2">
                       <input
                         type="text"
                         value={inputValues[index]?.dueDate || ""}
@@ -191,7 +195,7 @@ const Transaction = () => {
                         className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500"
                       />
                     </td>
-                    <td className="border border-gray-300 px-6 py-4">
+                    <td className="border border-gray-300 px-4 py-2">
                       <input
                         type="text"
                         value={inputValues[index]?.remainingAmount || ""}
@@ -201,7 +205,27 @@ const Transaction = () => {
                         className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500"
                       />
                     </td>
-                    <td className="border border-gray-300 px-12 py-4">
+                    <td className="border border-gray-300 px-4 py-2">
+                      <input
+                        type="text"
+                        value={inputValues[index]?.dueAmount || ""}
+                        onChange={(e) =>
+                          handleInputChange(e, index, "dueAmount")
+                        }
+                        className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500"
+                      />
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      <input
+                        type="text"
+                        value={inputValues[index]?.paidAmount || ""}
+                        onChange={(e) =>
+                          handleInputChange(e, index, "paidAmount")
+                        }
+                        className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500"
+                      />
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2">
                       <select
                         value={inputValues[index]?.status || ""}
                         onChange={(e) => handleInputChange(e, index, "status")}
@@ -217,7 +241,7 @@ const Transaction = () => {
               })
             ) : (
               <tr>
-                <td className="border border-gray-300 px-6 py-4" colSpan="5">
+                <td className="border border-gray-300 px-4 py-2" colSpan="7">
                   N/A
                 </td>
               </tr>

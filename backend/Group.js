@@ -16,6 +16,8 @@ const transactionSchema = new mongoose.Schema({
       auctionDate: { type: String, default: "" },
       dueDate: { type: String, default: "" },
       remainingAmount: { type: String, default: "" },
+      dueAmount: { type: String, default: "" },
+      paidAmount: { type: String, default: "" },
       status: { type: String, default: "" },
     },
   ],
