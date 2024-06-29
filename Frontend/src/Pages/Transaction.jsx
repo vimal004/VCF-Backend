@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import {
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Input,
+  Select,
+  MenuItem,
+} from "@mui/material";
+
+
 
 const Transaction = () => {
   const { customerid } = useParams();
@@ -146,21 +158,33 @@ const Transaction = () => {
         </p>
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full bg-white border border-gray-300">
-          <thead className="bg-gray-200">
-            <tr>
-              <th className="border border-gray-300 px-4 py-2">Month</th>
-              <th className="border border-gray-300 px-6 py-2">Auction Date</th>
-              <th className="border border-gray-300 px-8 py-2">Due Date</th>
-              <th className="border border-gray-300 px-4 py-2">
+        <Table className="w-full bg-white border border-gray-300">
+          <TableHead>
+            <TableRow>
+              <TableCell className="border border-gray-300 px-4 py-2">
+                Month
+              </TableCell>
+              <TableCell className="border border-gray-300 px-6 py-2">
+                Auction Date
+              </TableCell>
+              <TableCell className="border border-gray-300 px-8 py-2">
+                Due Date
+              </TableCell>
+              <TableCell className="border border-gray-300 px-4 py-2">
                 Remaining Amount
-              </th>
-              <th className="border border-gray-300 px-4 py-2">Due Amount</th>
-              <th className="border border-gray-300 px-4 py-2">Paid Amount</th>
-              <th className="border border-gray-300 px-12 py-2">Status</th>
-            </tr>
-          </thead>
-          <tbody>
+              </TableCell>
+              <TableCell className="border border-gray-300 px-4 py-2">
+                Due Amount
+              </TableCell>
+              <TableCell className="border border-gray-300 px-4 py-2">
+                Paid Amount
+              </TableCell>
+              <TableCell className="border border-gray-300 px-12 py-2">
+                Status
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {gdat && gdat.months > 0 ? (
               Array.from({ length: gdat.months }, (_, index) => {
                 // Calculate the month index based on startmonth
@@ -173,81 +197,84 @@ const Transaction = () => {
                 }).format(new Date(2000, currentMonthIndex, 1));
 
                 return (
-                  <tr key={index}>
-                    <td className="border border-gray-300 px-4 py-2">
+                  <TableRow key={index}>
+                    <TableCell className="border border-gray-300 px-4 py-2">
                       {currentMonthName}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      <input
+                    </TableCell>
+                    <TableCell className="border border-gray-300 px-4 py-2">
+                      <Input
                         type="text"
                         value={inputValues[index]?.auctionDate || ""}
                         onChange={(e) =>
                           handleInputChange(e, index, "auctionDate")
                         }
-                        className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500"
+                        fullWidth
                       />
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      <input
+                    </TableCell>
+                    <TableCell className="border border-gray-300 px-4 py-2">
+                      <Input
                         type="text"
                         value={inputValues[index]?.dueDate || ""}
                         onChange={(e) => handleInputChange(e, index, "dueDate")}
-                        className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500"
+                        fullWidth
                       />
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      <input
+                    </TableCell>
+                    <TableCell className="border border-gray-300 px-4 py-2">
+                      <Input
                         type="text"
                         value={inputValues[index]?.remainingAmount || ""}
                         onChange={(e) =>
                           handleInputChange(e, index, "remainingAmount")
                         }
-                        className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500"
+                        fullWidth
                       />
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      <input
+                    </TableCell>
+                    <TableCell className="border border-gray-300 px-4 py-2">
+                      <Input
                         type="text"
                         value={inputValues[index]?.dueAmount || ""}
                         onChange={(e) =>
                           handleInputChange(e, index, "dueAmount")
                         }
-                        className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500"
+                        fullWidth
                       />
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      <input
+                    </TableCell>
+                    <TableCell className="border border-gray-300 px-4 py-2">
+                      <Input
                         type="text"
                         value={inputValues[index]?.paidAmount || ""}
                         onChange={(e) =>
                           handleInputChange(e, index, "paidAmount")
                         }
-                        className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500"
+                        fullWidth
                       />
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      <select
+                    </TableCell>
+                    <TableCell className="border border-gray-300 px-4 py-2">
+                      <Select
                         value={inputValues[index]?.status || ""}
                         onChange={(e) => handleInputChange(e, index, "status")}
-                        className="w-full border border-gray-300 px-5 py-2 rounded-md focus:outline-none focus:border-blue-500"
+                        fullWidth
                       >
-                        <option value=""></option>
-                        <option value="Paid">Paid</option>
-                        <option value="Defaulter">Unpaid</option>
-                      </select>
-                    </td>
-                  </tr>
+                        <MenuItem value=""></MenuItem>
+                        <MenuItem value="Paid">Paid</MenuItem>
+                        <MenuItem value="Defaulter">Unpaid</MenuItem>
+                      </Select>
+                    </TableCell>
+                  </TableRow>
                 );
               })
             ) : (
-              <tr>
-                <td className="border border-gray-300 px-4 py-2" colSpan="7">
+              <TableRow>
+                <TableCell
+                  className="border border-gray-300 px-4 py-2"
+                  colSpan="7"
+                >
                   N/A
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             )}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
       <div className="">
         {s ? (
