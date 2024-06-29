@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { TextField, Button, Snackbar } from "@mui/material";
+import { Delete, Update, CheckCircle, Error } from "@mui/icons-material";
 
 const CustomerForm = () => {
   const [formData, setFormData] = useState({
@@ -78,111 +80,109 @@ const CustomerForm = () => {
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4">Customer Form</h2>
       <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2">
-            ID:
-            <input
-              type="String"
-              name="id"
-              value={formData.id}
-              onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </label>
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2">
-            Name:
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </label>
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2">
-            Phone Number:
-            <input
-              type="text"
-              name="phno"
-              value={formData.phno}
-              onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </label>
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2">
-            Address:
-            <input
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </label>
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2">
-            Batch Number:
-            <input
-              type="text"
-              name="group"
-              value={formData.group}
-              onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </label>
-        </div>
-        {created && success === true ? (
-          <div className="text-green-500 text-center my-5">
-            Customer Created
-          </div>
-        ) : success === false ? (
-          <div className="text-red-500 text-center my-5">
-            Customer Creation Failed
-          </div>
-        ) : (
-          <div></div>
-        )}
-        {deleted ? (
-          <div className="text-green-500 text-center my-5">
-            Customer Record Deleted
-          </div>
-        ) : (
-          <div></div>
-        )}
-        {updated ? (
-          <div className="text-green-500 text-center my-5">
-            Customer Record Updated
-          </div>
-        ) : (
-          <div></div>
-        )}
-        <button
+        <TextField
+          type="text"
+          name="id"
+          value={formData.id}
+          onChange={handleChange}
+          label="ID"
+          variant="outlined"
+          fullWidth
+          className="mb-4"
+        />
+        <TextField
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          label="Name"
+          variant="outlined"
+          fullWidth
+          className="mb-4"
+        />
+        <TextField
+          type="text"
+          name="phno"
+          value={formData.phno}
+          onChange={handleChange}
+          label="Phone Number"
+          variant="outlined"
+          fullWidth
+          className="mb-4"
+        />
+        <TextField
+          type="text"
+          name="address"
+          value={formData.address}
+          onChange={handleChange}
+          label="Address"
+          variant="outlined"
+          fullWidth
+          className="mb-4"
+        />
+        <TextField
+          type="text"
+          name="group"
+          value={formData.group}
+          onChange={handleChange}
+          label="Batch Number"
+          variant="outlined"
+          fullWidth
+          className="mb-4"
+        />
+        <Snackbar
+          open={created && success === true}
+          autoHideDuration={3000}
+          message="Customer Created"
+          icon={<CheckCircle />}
+        />
+        <Snackbar
+          open={success === false}
+          autoHideDuration={3000}
+          message="Customer Creation Failed"
+          icon={<Error />}
+        />
+        <Snackbar
+          open={deleted}
+          autoHideDuration={3000}
+          message="Customer Record Deleted"
+          icon={<CheckCircle />}
+        />
+        <Snackbar
+          open={updated}
+          autoHideDuration={3000}
+          message="Customer Record Updated"
+          icon={<CheckCircle />}
+        />
+        <Button
           type="submit"
-          className="w-full bg-indigo-500 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          variant="contained"
+          color="primary"
+          startIcon={<CheckCircle />}
+          className="w-full mt-4"
         >
           Create
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           onClick={handleUpdate}
-          className="w-full bg-yellow-500 text-white font-bold py-2 px-4 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 mt-4"
+          variant="contained"
+          color="warning"
+          startIcon={<Update />}
+          className="w-full mt-4"
         >
           Update
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           onClick={handleDelete}
-          className="w-full bg-red-500 text-white font-bold py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 mt-4"
+          variant="contained"
+          color="error"
+          startIcon={<Delete />}
+          className="w-full mt-4"
         >
           Delete
-        </button>
+        </Button>
       </form>
     </div>
   );

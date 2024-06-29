@@ -1,14 +1,14 @@
 // Home.js
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Button from '@mui/material/Button';
-import PeopleIcon from '@mui/icons-material/People';
-import EditIcon from '@mui/icons-material/Edit';
-import GroupIcon from '@mui/icons-material/Group';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import ReportIcon from '@mui/icons-material/Report';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from './theme';  // Import the custom theme
+import React from "react";
+import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
+import PeopleIcon from "@mui/icons-material/People";
+import EditIcon from "@mui/icons-material/Edit";
+import GroupIcon from "@mui/icons-material/Group";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import ReportIcon from "@mui/icons-material/Report";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./theme"; // Import the custom theme
 
 const Home = () => {
   return (
@@ -82,4 +82,3 @@ const Home = () => {
 };
 
 export default Home;
-
