@@ -1,5 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {
+  Box,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  CircularProgress,
+} from "@mui/material";
 
 const ViewGroups = () => {
   const [groups, setGroups] = useState([]);
@@ -20,57 +32,61 @@ const ViewGroups = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 10 }}>
+        <CircularProgress />
+      </Box>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <Box sx={{ mt: 10, textAlign: "center" }}>
+        <Typography variant="h5" color="error">
+          Error: {error}
+        </Typography>
+      </Box>
+    );
   }
 
   return (
-    <div className="max-w-4xl mx-auto mt-10">
-      <h1 className="text-3xl font-bold text-center mb-8">Groups</h1>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-200 px-4 py-2">Group Name</th>
-              <th className="border border-gray-200 px-4 py-2">Group</th>
-              <th className="border border-gray-200 px-4 py-2">Months</th>
-              <th className="border border-gray-200 px-4 py-2">Start Month</th>
-            </tr>
-          </thead>
-          <tbody>
+    <Box sx={{ maxWidth: "80%", mx: "auto", mt: 10 }}>
+      <Typography variant="h3" align="center" gutterBottom fontWeight={"bold"}>
+        Groups
+      </Typography>
+      <TableContainer component={Paper} sx={{ borderRadius: 3 }}>
+        <Table>
+          <TableHead>
+            <TableRow sx={{ backgroundColor: "lightgrey" }}>
+              <TableCell sx={{ fontWeight: "bold" }}>Group Name</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Group</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Months</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Start Month</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {groups.length > 0 ? (
               groups.map((group) => (
-                <tr key={group._id} className="border border-gray-200">
-                  <td className="border border-gray-200 px-4 py-2">
-                    {group.groupname}
-                  </td>
-                  <td className="border border-gray-200 px-4 py-2">
-                    {group.group}
-                  </td>
-                  <td className="border border-gray-200 px-4 py-2">
-                    {group.months}
-                  </td>
-                  <td className="border border-gray-200 px-4 py-2">
-                    {group.startmonth}
-                  </td>
-                </tr>
+                <TableRow key={group._id}>
+                  <TableCell>{group.groupname}</TableCell>
+                  <TableCell>{group.group}</TableCell>
+                  <TableCell>{group.months}</TableCell>
+                  <TableCell>{group.startmonth}</TableCell>
+                </TableRow>
               ))
             ) : (
-              <tr>
-                <td colSpan="4" className="border border-gray-200 px-4 py-2">
-                  <div className="text-center text-red-500">
+              <TableRow>
+                <TableCell colSpan={4} align="center">
+                  <Typography variant="body1" color="error">
                     No Group Record Found
-                  </div>
-                </td>
-              </tr>
+                  </Typography>
+                </TableCell>
+              </TableRow>
             )}
-          </tbody>
-        </table>
-      </div>
-    </div>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 };
 

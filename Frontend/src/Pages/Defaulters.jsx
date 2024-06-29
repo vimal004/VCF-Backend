@@ -1,10 +1,26 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import {
+  Box,
+  Typography,
+  TextField,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  InputAdornment,
+  Card,
+  CardContent,
+} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import GroupIcon from "@mui/icons-material/Group";
 
 const Defaulters = () => {
   const [defaulters, setDefaulters] = useState([]);
-  const [customers, setCustomers] = useState([]);
   const [filter, setFilter] = useState({
     name: "",
     group: "",
@@ -49,81 +65,138 @@ const Defaulters = () => {
   });
 
   return (
-    <div className="max-w-4xl mx-auto mt-10">
-      <h1 className="text-3xl font-bold text-center mb-8">Defaulter Details</h1>
-      <div className="flex justify-between items-center mb-4">
-        <label className="mr-4">
-          Filter By Group:
-          <input
-            name="group"
-            value={filter.group}
-            type="number"
-            placeholder="Enter Group Number"
-            onChange={handleFilterChange}
-            className="ml-2 border border-gray-300 px-2 py-1 text-black rounded"
-          />
-        </label>
-        <label>
-          Search Defaulter By Name:
-          <input
-            name="name"
-            type="text"
-            value={filter.name}
-            placeholder="Enter Defaulter Name"
-            onChange={handleFilterChange}
-            className="ml-2 border border-gray-300 px-2 py-1 rounded text-black"
-          />
-        </label>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-200 px-4 py-2">ID</th>
-              <th className="border border-gray-200 px-4 py-2">
-                Defaulter Name
-              </th>
-              <th className="border border-gray-200 px-4 py-2">Phone Number</th>
-              <th className="border border-gray-200 px-4 py-2">Address</th>
-              <th className="border border-gray-200 px-4 py-2">Group Number</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredDefaulters.length > 0 ? (
-              filteredDefaulters.map((defaulter) => (
-                <tr key={defaulter.id} className="border border-gray-200">
-                  <td className="border border-gray-200 px-4 py-2">
-                    <Link to={`/customers/${defaulter.id}`}>
-                      {defaulter.id}
-                    </Link>
-                  </td>
-                  <td className="border border-gray-200 px-4 py-2">
-                    {defaulter.name}
-                  </td>
-                  <td className="border border-gray-200 px-4 py-2">
-                    {defaulter.phno}
-                  </td>
-                  <td className="border border-gray-200 px-4 py-2">
-                    {defaulter.address}
-                  </td>
-                  <td className="border border-gray-200 px-4 py-2">
-                    {defaulter.group}
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5" className="border border-gray-200 px-4 py-2">
-                  <div className="text-center text-red-500">
-                    No Defaulter Record Found
-                  </div>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <Box sx={{ maxWidth: "80%", mx: "auto", mt: 5 }}>
+      <Card raised sx={{ borderRadius: 3, bgcolor: "white" }}>
+        <CardContent>
+          <Typography
+            variant="h4"
+            component="h1"
+            align="center"
+            gutterBottom
+            fontWeight="bold"
+          >
+            Defaulter Details
+          </Typography>
+          <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
+            <TextField
+              name="group"
+              value={filter.group}
+              type="number"
+              placeholder="Filter By Group"
+              onChange={handleFilterChange}
+              variant="outlined"
+              fullWidth
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <GroupIcon />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ marginRight: 2, borderRadius: 2 }}
+            />
+            <TextField
+              name="name"
+              type="text"
+              value={filter.name}
+              placeholder="Search Defaulter By Name"
+              onChange={handleFilterChange}
+              variant="outlined"
+              fullWidth
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ borderRadius: 2 }}
+            />
+          </Box>
+          <TableContainer component={Paper} sx={{ borderRadius: 3 }}>
+            <Table>
+              <TableHead>
+                <TableRow sx={{ backgroundColor: "lightgrey" }}>
+                  <TableCell
+                    sx={{
+                      fontWeight: "bold",
+                      fontFamily: "Roboto, sans-serif",
+                      color: "black",
+                    }}
+                  >
+                    ID
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "bold",
+                      fontFamily: "Roboto, sans-serif",
+                      color: "black",
+                    }}
+                  >
+                    Defaulter Name
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "bold",
+                      fontFamily: "Roboto, sans-serif",
+                      color: "black",
+                    }}
+                  >
+                    Phone Number
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "bold",
+                      fontFamily: "Roboto, sans-serif",
+                      color: "black",
+                    }}
+                  >
+                    Address
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "bold",
+                      fontFamily: "Roboto, sans-serif",
+                      color: "black",
+                    }}
+                  >
+                    Group Number
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredDefaulters.length > 0 ? (
+                  filteredDefaulters.map((defaulter) => (
+                    <TableRow key={defaulter.id}>
+                      <TableCell>
+                        <Link
+                          to={`/customers/${defaulter.id}`}
+                          style={{ color: "black", textDecoration: "none" }}
+                        >
+                          {defaulter.id}
+                        </Link>
+                      </TableCell>
+                      <TableCell>{defaulter.name}</TableCell>
+                      <TableCell>{defaulter.phno}</TableCell>
+                      <TableCell>{defaulter.address}</TableCell>
+                      <TableCell>{defaulter.group}</TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5} align="center">
+                      <Typography variant="body1" color="error">
+                        No Defaulter Record Found
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </CardContent>
+      </Card>
+    </Box>
   );
 };
 
