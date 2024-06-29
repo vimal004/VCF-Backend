@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import {
+  Button,
   Table,
   TableHead,
   TableBody,
@@ -10,9 +11,8 @@ import {
   Input,
   Select,
   MenuItem,
+  Typography,
 } from "@mui/material";
-
-
 
 const Transaction = () => {
   const { customerid } = useParams();
@@ -276,20 +276,20 @@ const Transaction = () => {
           </TableBody>
         </Table>
       </div>
-      <div className="">
-        {s ? (
-          <div className="m-3">
-            <h5 className="text-green-500">Updation Successful</h5>
-          </div>
-        ) : (
-          <div></div>
+      <div className="m-4">
+        {s && (
+          <Typography variant="body1" className="text-green-500 m-3">
+            Updation Successful
+          </Typography>
         )}
-        <button
-          className="m-5 text-white bg-blue-500 p-3 rounded-md"
+        <Button
+          variant="contained"
+          color="primary"
           onClick={handleupdate}
+          className="m-5"
         >
           Update Details
-        </button>
+        </Button>
       </div>
     </div>
   );
