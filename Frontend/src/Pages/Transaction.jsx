@@ -150,14 +150,14 @@ const Transaction = () => {
           <thead className="bg-gray-200">
             <tr>
               <th className="border border-gray-300 px-4 py-2">Month</th>
-              <th className="border border-gray-300 px-4 py-2">Auction Date</th>
-              <th className="border border-gray-300 px-4 py-2">Due Date</th>
+              <th className="border border-gray-300 px-6 py-2">Auction Date</th>
+              <th className="border border-gray-300 px-8 py-2">Due Date</th>
               <th className="border border-gray-300 px-4 py-2">
                 Remaining Amount
               </th>
               <th className="border border-gray-300 px-4 py-2">Due Amount</th>
               <th className="border border-gray-300 px-4 py-2">Paid Amount</th>
-              <th className="border border-gray-300 px-4 py-2">Status</th>
+              <th className="border border-gray-300 px-12 py-2">Status</th>
             </tr>
           </thead>
           <tbody>
