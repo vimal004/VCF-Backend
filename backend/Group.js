@@ -166,6 +166,23 @@ groupRouter.put("/transaction", async (req, res) => {
   }
 });
 
+groupRouter.delete("/transaction", async (req, res) => {
+  try {
+    const { id, data } = req.body;
+
+    const result = await Transaction.findOneAndDelete({ id: id });
+
+    if (!result) {
+      return res.status(404).send({ message: "Transaction Deleted" });
+    }
+
+    res.send(result);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal server error" });
+  }
+});
+
 groupRouter.get("/defaulters", async (req, res) => {
   try {
     // Retrieve transactions where at least one object in the data array has status "Defaulter"
