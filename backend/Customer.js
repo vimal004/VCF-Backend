@@ -78,11 +78,11 @@ customerRouter.get("/", (req, res) => {
 // Update a customer by id
 customerRouter.put("/customer", async (req, res) => {
   try {
-    // Filter out undefined fields from the request body
+    // Filter out empty, null, or undefined fields from the request body
     const updateData = Object.keys(req.body).reduce((acc, key) => {
       if (
-        req.body[key] !== "" ||
-        req.body[key] !== null ||
+        req.body[key] !== "" &&
+        req.body[key] !== null &&
         req.body[key] !== undefined
       ) {
         acc[key] = req.body[key];
@@ -112,6 +112,7 @@ customerRouter.put("/customer", async (req, res) => {
     });
   }
 });
+
 
 // Delete a customer by id
 customerRouter.delete("/customer/:id", async (req, res) => {
