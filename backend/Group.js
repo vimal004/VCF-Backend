@@ -29,11 +29,21 @@ const Transaction = mongoose.model("Transaction", transactionSchema);
 // Update a group by ID
 // Update a group by its unique identifier
 groupRouter.put("/", async (req, res) => {
-  const updateData = req.body; // Assuming req.body contains the updated group data
+  // Filter out empty, null, or undefined fields from the request body
+  const updateData = Object.keys(req.body).reduce((acc, key) => {
+    if (
+      req.body[key] !== "" &&
+      req.body[key] !== null &&
+      req.body[key] !== undefined
+    ) {
+      acc[key] = req.body[key];
+    }
+    return acc;
+  }, {});
 
   try {
     const updatedGroup = await Group.findOneAndUpdate(
-      { group: updateData.group }, // Find by group identifier
+      { group: req.body.group }, // Find by group identifier
       updateData,
       { new: true } // Return the updated document
     );
@@ -56,6 +66,7 @@ groupRouter.put("/", async (req, res) => {
     });
   }
 });
+
 
 // Delete a group by ID
 groupRouter.delete("/", async (req, res) => {
