@@ -80,7 +80,11 @@ customerRouter.put("/customer", async (req, res) => {
   try {
     // Filter out undefined fields from the request body
     const updateData = Object.keys(req.body).reduce((acc, key) => {
-      if (req.body[key] !== undefined) {
+      if (
+        req.body[key] !== "" ||
+        req.body[key] !== null ||
+        req.body[key] !== undefined
+      ) {
         acc[key] = req.body[key];
       }
       return acc;
