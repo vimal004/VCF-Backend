@@ -13,7 +13,41 @@ const customerSchema = new mongoose.Schema({
   phno: { type: String, maxlength: 10 },
 });
 
+const userSchema = mongoose.Schema({
+  email: { type: String, required: true },
+  password: { type: String, required: true },
+});
+
 const Customer = mongoose.model("Customer", customerSchema);
+const User = mongoose.model("User", userSchema);
+
+customerRouter.post("/login", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      email: req.body.email,
+      password: req.body.password,
+    });
+    if (user) {
+      res.status(200).json({ message: "Login successful" });
+    } else {
+      res.status(401).json({ message: "Invalid email or password" });
+    }
+  } catch (error) {
+    console.error("Error logging in:", error);
+    res.status(500).json({ message: "Error logging in", error: error.message });
+  }
+});
+
+customerRouter.post("/register", async (req, res) => { 
+  try {
+    const user = new User(req.body);
+    const response = await user.save();
+    res.status(201).json({ message: "User registered successfully", data: response });
+  } catch (error) {
+    console.error("Error registering user:", error);
+    res.status(400).json({ message: "Error registering user", error: error.message });
+  } 
+});  
 
 // Create a new customer
 customerRouter.post("/customer", async (req, res) => {
@@ -112,7 +146,6 @@ customerRouter.put("/customer", async (req, res) => {
     });
   }
 });
-
 
 // Delete a customer by id
 customerRouter.delete("/customer/:id", async (req, res) => {
