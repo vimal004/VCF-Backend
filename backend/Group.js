@@ -157,7 +157,7 @@ groupRouter.get("/", async (req, res) => {
 
     // Fetch from database if not in cache
     const groups = await Group.find();
-    cache.set(cacheKey, groups, 600); // Cache data for 10 minutes
+    cache.set(cacheKey, groups); // Cache data for 10 minutes
 
     res.status(200).json({
       message: "Groups retrieved successfully",
