@@ -28,7 +28,6 @@ const Group = mongoose.model("Group", groupSchema);
 const Transaction = mongoose.model("Transaction", transactionSchema);
 const cache = new NodeCache();
 
-
 // Update a group by ID
 // Update a group by its unique identifier
 groupRouter.put("/", async (req, res) => {
@@ -212,16 +211,36 @@ groupRouter.delete("/transaction", async (req, res) => {
 
 groupRouter.get("/defaulters", async (req, res) => {
   try {
-    // Retrieve transactions where at least one object in the data array has status "Defaulter"
+    // Define cache key
+    const cacheKey = "defaulters";
+
+    // Check if data exists in cache
+    const cachedData = cache.get(cacheKey);
+    if (cachedData) {
+      return res.status(200).json({
+        message: "Defaulters retrieved from cache",
+        data: cachedData,
+      });
+    }
+
+    // If not in cache, fetch defaulters from the database
     const defaulters = await Transaction.find({
       "data.status": "Defaulter",
     });
 
-    res.send(defaulters);
+    // Store the retrieved data in the cache for future requests
+    cache.set(cacheKey, defaulters);
+
+    // Return the defaulters data
+    return res.status(200).json({
+      message: "Defaulters retrieved from database",
+      data: defaulters,
+    });
   } catch (error) {
     console.error("Error fetching defaulters:", error);
-    res.status(500).send("An error occurred while fetching defaulters.");
+    return res.status(500).send("An error occurred while fetching defaulters.");
   }
 });
+
 
 module.exports = groupRouter;
