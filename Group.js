@@ -216,10 +216,8 @@ groupRouter.get("/defaulters", async (req, res) => {
     // Check if data is available in cache
     const cachedData = cache.get(cacheKey);
     if (cachedData) {
-      return res.status(200).json({
-        message: "Defaulters retrieved from cache",
-        data: cachedData,
-      });
+      // Directly send the cached data to the frontend
+      return res.send(cachedData);
     }
 
     // If not cached, retrieve data from the database
@@ -227,18 +225,16 @@ groupRouter.get("/defaulters", async (req, res) => {
       "data.status": "Defaulter",
     });
 
-    // Cache the retrieved data for future requests
-    cache.set(cacheKey, defaulters, 600); // Cache for 10 minutes (600 seconds)
+    // Cache the retrieved data for future requests (10 minutes)
+    cache.set(cacheKey, defaulters, 600);
 
-    // Return the response with the retrieved defaulters
-    return res.status(200).json({
-      message: "Defaulters retrieved successfully",
-      data: defaulters,
-    });
+    // Send the response with the retrieved defaulters
+    return res.send(defaulters);
   } catch (error) {
     console.error("Error fetching defaulters:", error);
     return res.status(500).send("An error occurred while fetching defaulters.");
   }
 });
+
 
 module.exports = groupRouter;
