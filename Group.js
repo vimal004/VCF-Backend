@@ -211,10 +211,9 @@ groupRouter.delete("/transaction", async (req, res) => {
 
 groupRouter.get("/defaulters", async (req, res) => {
   try {
-    // Define cache key
     const cacheKey = "defaulters";
 
-    // Check if data exists in cache
+    // Check if data is available in cache
     const cachedData = cache.get(cacheKey);
     if (cachedData) {
       return res.status(200).json({
@@ -223,17 +222,17 @@ groupRouter.get("/defaulters", async (req, res) => {
       });
     }
 
-    // If not in cache, fetch defaulters from the database
+    // If not cached, retrieve data from the database
     const defaulters = await Transaction.find({
       "data.status": "Defaulter",
     });
 
-    // Store the retrieved data in the cache for future requests
-    cache.set(cacheKey, defaulters);
+    // Cache the retrieved data for future requests
+    cache.set(cacheKey, defaulters, 600); // Cache for 10 minutes (600 seconds)
 
-    // Return the defaulters data
+    // Return the response with the retrieved defaulters
     return res.status(200).json({
-      message: "Defaulters retrieved from database",
+      message: "Defaulters retrieved successfully",
       data: defaulters,
     });
   } catch (error) {
@@ -241,6 +240,5 @@ groupRouter.get("/defaulters", async (req, res) => {
     return res.status(500).send("An error occurred while fetching defaulters.");
   }
 });
-
 
 module.exports = groupRouter;
