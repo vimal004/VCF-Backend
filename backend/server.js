@@ -2,18 +2,21 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const NodeCache = require("node-cache"); // Import NodeCache
 const customerRouter = require("./Customer");
-const grouprouter = require("./Group");
+const groupRouter = require("./Group");
 
 const app = express();
+ // Initialize cache
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
+
 // Routes
 app.use("/", customerRouter);
-app.use("/group", grouprouter);
+app.use("/group", groupRouter);
 
 // MongoDB Connection
 mongoose

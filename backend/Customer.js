@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const customerRouter = express.Router();
+const NodeCache = require("node-cache");
 
 const customerSchema = new mongoose.Schema({
   id: {
@@ -17,7 +18,7 @@ const userSchema = mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
 });
-
+const cache = new NodeCache();
 const Customer = mongoose.model("Customer", customerSchema);
 const User = mongoose.model("User", userSchema);
 
@@ -38,16 +39,20 @@ customerRouter.post("/login", async (req, res) => {
   }
 });
 
-customerRouter.post("/register", async (req, res) => { 
+customerRouter.post("/register", async (req, res) => {
   try {
     const user = new User(req.body);
     const response = await user.save();
-    res.status(201).json({ message: "User registered successfully", data: response });
+    res
+      .status(201)
+      .json({ message: "User registered successfully", data: response });
   } catch (error) {
     console.error("Error registering user:", error);
-    res.status(400).json({ message: "Error registering user", error: error.message });
-  } 
-});  
+    res
+      .status(400)
+      .json({ message: "Error registering user", error: error.message });
+  }
+});
 
 // Create a new customer
 customerRouter.post("/customer", async (req, res) => {
@@ -70,7 +75,21 @@ customerRouter.post("/customer", async (req, res) => {
 // Retrieve all customers
 customerRouter.get("/customers", async (req, res) => {
   try {
+    // Check if data is in cache
+    const cacheKey = "customers";
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+      return res.status(200).json({
+        message: "Customers retrieved from cache",
+        data: cachedData,
+      });
+    }
+
+    // Fetch from database if not in cache
     const customers = await Customer.find();
+    cache.set(cacheKey, customers, 600); // Cache data for 10 minutes
+
     res.status(200).json({
       message: "Customers retrieved successfully",
       data: customers,

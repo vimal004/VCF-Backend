@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const groupRouter = express.Router();
+const NodeCache = require("node-cache");
 
 const groupSchema = new mongoose.Schema({
   group: { type: String, required: true, unique: true },
@@ -25,6 +26,8 @@ const transactionSchema = new mongoose.Schema({
 
 const Group = mongoose.model("Group", groupSchema);
 const Transaction = mongoose.model("Transaction", transactionSchema);
+const cache = new NodeCache();
+
 
 // Update a group by ID
 // Update a group by its unique identifier
@@ -66,7 +69,6 @@ groupRouter.put("/", async (req, res) => {
     });
   }
 });
-
 
 // Delete a group by ID
 groupRouter.delete("/", async (req, res) => {
@@ -142,7 +144,21 @@ groupRouter.get("/transaction", async (req, res) => {
 
 groupRouter.get("/", async (req, res) => {
   try {
+    // Check if data is in cache
+    const cacheKey = "groups";
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+      return res.status(200).json({
+        message: "Groups retrieved from cache",
+        data: cachedData,
+      });
+    }
+
+    // Fetch from database if not in cache
     const groups = await Group.find();
+    cache.set(cacheKey, groups, 600); // Cache data for 10 minutes
+
     res.status(200).json({
       message: "Groups retrieved successfully",
       data: groups,
